@@ -1,6 +1,7 @@
 from qdrant_client import QdrantClient
 from qdrant_client.http.models import PointStruct
 import numpy as np
+from app.services.topic_generator import TopicGenerator
 
 class QdrantService:
     def __init__(self, host: str = 'qdrant', port: int = 6333, collection_name: str = 'videos'):
@@ -18,4 +19,11 @@ class QdrantService:
     def insert_vector(self, id: int, vector: list[float], payload: dict = None):
         point = PointStruct(id=id, vector=vector, payload=payload or {})
         self.client.upsert(collection_name=self.collection_name, points=[point])
-        return {"status": "ok", "id": id} 
+        return {"status": "ok", "id": id}
+
+    def index_video_with_topics(self, id: int, vector: list[float], title: str, description: str, transcript: str, channel_id: str = None):
+        """
+        Pipeline: gera tópicos com LLM, monta payload e insere no Qdrant.
+        """
+        # TODO: Chamar TopicGenerator e montar payload
+        raise NotImplementedError("Pipeline de indexação com tópicos não implementado.") 

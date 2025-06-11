@@ -1,1 +1,1 @@
- 
+# Pacote de configuração (core) 
