@@ -1,14 +1,60 @@
 # ViewStats
 
-## Project Overview
+## 📚 Project Overview
 
-ViewStats is a containerized web service designed to process CSV files and interact with a vector database (Qdrant). The backend is built with FastAPI and is orchestrated using Docker Compose for easy deployment and scalability.
+**ViewStats** is an AI-powered web platform that performs semantic video classification and search. It processes a dataset of over **124,000 YouTube videos**, extracting custom hierarchical topics and enabling **semantic exploration** through a full-stack application.
+
+This solution includes:
+- AI-generated **multi-label classification** for each video and channel
+- A **hierarchical taxonomy** of topics and subtopics
+- A **semantic search engine** powered by vector embeddings and Qdrant
+- A basic **FastAPI backend** and optional frontend for navigation and exploration
 
 ---
 
-## Project Structure
+## 🔧 Technologies Used
+
+- **Backend**: FastAPI (Python)
+- **Vector Database**: Qdrant
+- **Containerization**: Docker Compose
+- **Text Processing**: Pandas, Sentence Transformers, BERTopic
+- **Embeddings**: `all-MiniLM-L6-v2` (or equivalent)
+- **Optional**: React/Next.js frontend
+
+---
+
+## 🧠 Core Features
+
+### ✅ Semantic Video Indexing
+- Embeddings generated from video title, description, and full transcript
+- Optional transcript pre-processing and lemmatization
+- Storage of vectorized representations in Qdrant
+- Metadata (e.g., views, duration, channel info) stored as payload
+
+### ✅ Custom Topic Modeling
+- Automatic extraction of topics using topic modeling and clustering
+- Derivation of a **multi-level hierarchical taxonomy**
+- Multi-label classification at both **video** and **channel** levels
+- No reliance on pre-defined categories — taxonomy is emergent from content
+
+### ✅ Intelligent Semantic Search
+- Vector similarity search using Qdrant
+- Support for context-aware keyword queries (e.g., `"Magnus Carlsen"` → chess)
+- API endpoints to support free-text search and topic-based exploration
+
+### ✅ API & Taxonomy Browser
+- Backend exposes:
+  - `/search`: vector-based semantic search
+  - `/taxonomy`: hierarchical topic explorer
+  - `/video/{id}`: individual video metadata
+  - `/channel/{id}`: channel-level topic labels and info
+
+---
+
+## 📁 Project Structure
 
 ```
+
 viewstats/
 ├── backend/
 │   ├── Dockerfile
@@ -16,66 +62,106 @@ viewstats/
 │   └── app/
 │       ├── main.py
 │       └── services/
-│           └── file_processor.py
+│           ├── file\_processor.py
+│           └── embedding\_engine.py
 ├── docker-compose.yaml
-```
 
-### Root Directory
-- **docker-compose.yaml**: Defines and orchestrates the services required for the project, including the API backend and the Qdrant vector database. It sets up networking, persistent volumes, and environment variables for service communication.
-
-### backend/
-- **Dockerfile**: Builds the backend API image using Python 3.11-slim, installs dependencies, and sets up the FastAPI application to run with Uvicorn.
-- **requirements.txt**: Lists the Python dependencies for the backend (`fastapi`, `uvicorn`).
-- **app/**: Contains the FastAPI application code and related services.
-
-### backend/app/
-- **main.py**: Entry point for the FastAPI application. It exposes two endpoints:
-  - `GET /`: Health check endpoint returning a welcome message.
-  - `POST /upload-csv`: Accepts a CSV file upload, validates the file type, processes the file, and returns the number of rows and column names. Utilizes the `file_processor` service for CSV parsing.
-- **services/**: Contains auxiliary services used by the application.
-
-### backend/app/services/
-- **file_processor.py**: Implements the logic for processing CSV files. It reads the uploaded file using pandas, extracts the number of rows and column names, and returns this information to the API.
+````
 
 ---
 
-## How It Works
+## 🚀 How to Run
 
-1. **Startup**: Use Docker Compose to start both the Qdrant vector database and the FastAPI backend.
-2. **API Usage**:
-   - Access the root endpoint (`/`) to verify the API is running.
-   - Use the `/upload-csv` endpoint to upload a CSV file. The API will respond with the file's metadata (number of rows and columns).
-3. **Qdrant Integration**: The backend is pre-configured to connect to the Qdrant service, though the current implementation focuses on CSV processing.
+### 1. Start the Application
+```bash
+docker-compose up --build
+````
 
----
+### 2. Access
 
-## Running the Project
-
-1. **Build and Start Services**
-   ```bash
-   docker-compose up --build
-   ```
-2. **Access the API**
-   - The API will be available at `http://localhost:8000`.
-   - The Qdrant database will be available at `http://localhost:6333`.
+* Backend API: [http://localhost:8000](http://localhost:8000)
+* Qdrant UI/API: [http://localhost:6333](http://localhost:6333)
 
 ---
 
-## Dependencies
-- Python 3.11 (Dockerized)
-- FastAPI
-- Uvicorn
-- pandas (for CSV processing, assumed to be available in the runtime)
-- Qdrant (vector database)
+## 🧪 API Endpoints
+
+| Endpoint        | Method | Description                        |
+| --------------- | ------ | ---------------------------------- |
+| `/`             | GET    | Health check                       |
+| `/upload-csv`   | POST   | Upload CSV, return file metadata   |
+| `/search`       | POST   | Semantic search (vector + keyword) |
+| `/taxonomy`     | GET    | Explore hierarchical taxonomy      |
+| `/video/{id}`   | GET    | Retrieve video metadata            |
+| `/channel/{id}` | GET    | Retrieve channel classification    |
 
 ---
 
-## Extending the Project
-- Add more endpoints to process or analyze uploaded data.
-- Integrate deeper with Qdrant for vector search or storage.
-- Implement authentication and authorization for secure file uploads.
+## 🎯 Evaluation Criteria (from challenge)
+
+| Area                         | Weight |
+| ---------------------------- | ------ |
+| Classification Accuracy      | 30%    |
+| Semantic Search Relevance    | 30%    |
+| Backend/API Design           | 15%    |
+| Frontend Functionality       | 10%    |
+| Code Quality & Documentation | 10%    |
+
+✅ **Bonus Points** included for:
+
+* Context-aware abbreviations (e.g., NBA ↔ National Basketball Association)
+* Autocomplete suggestions
+* Topic co-occurrence graphs
+* Filtered/faceted UI
 
 ---
 
-## License
-This project is provided as-is for demonstration and educational purposes. 
+## 📦 Dependencies
+
+* Python 3.11 (Dockerized)
+* `fastapi`, `uvicorn`, `pandas`
+* `sentence-transformers`, `qdrant-client`
+* `BERTopic` or other topic modeling tools
+
+---
+
+## 🔒 Notes
+
+* This project is provided under **NDA** and must not be shared publicly.
+* The system is designed to operate within a 24–48 hour build window.
+* Optional expenses may be covered up to \$100 — list any used APIs and receipts in the write-up.
+
+---
+
+## 📝 Deliverables
+
+* ✅ Source code (backend + frontend if built)
+* ✅ This README with setup, architecture and design decisions
+* ✅ Commentary on modeling, limitations, and assumptions
+* ✅ (Optional) Loom or screenshots
+* ✅ (Optional) Deployed link (not required)
+
+---
+
+## 🧭 Future Extensions
+
+* Add frontend UI (React, SvelteKit, etc.)
+* Autocomplete and search suggestions
+* RAG-based search augmentation
+* Analytics and visualizations on topic distributions
+
+---
+
+## 📬 Submission
+
+Send your GitHub repo and documentation to:
+
+* [nagesh@mrbeastyoutube.com](mailto:nagesh@mrbeastyoutube.com)
+* [byronm@mrbeastyoutube.com](mailto:byronm@mrbeastyoutube.com)
+* [nicolas@viewstats.com](mailto:nicolas@viewstats.com)
+
+---
+
+## © License
+
+This project is provided solely for evaluation purposes under NDA.
