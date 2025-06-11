@@ -30,6 +30,19 @@ services:
     networks:
       - viewstats-network
 
+  frontend:
+    container_name: viewstats_frontend
+    build:
+      context: ./frontend
+      dockerfile: Dockerfile
+    restart: always
+    ports:
+      - "3000:3000"
+    depends_on:
+      - api
+    networks:
+      - viewstats-network
+
 volumes:
   qdrant_storage:
 
