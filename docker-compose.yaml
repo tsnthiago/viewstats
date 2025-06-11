@@ -1,0 +1,38 @@
+services:
+  qdrant:
+    container_name: viewstats_qdrant
+    image: qdrant/qdrant:latest
+    restart: always
+    ports:
+      - "6333:6333"
+      - "6334:6334"
+    volumes:
+      - qdrant_storage:/qdrant/storage
+    environment:
+      - QDRANT__SERVICE__HTTP_PORT=6333
+      - QDRANT__SERVICE__GRPC_PORT=6334
+    networks:
+      - viewstats-network
+
+  api:
+    container_name: viewstats_api
+    build:
+      context: ./backend
+      dockerfile: Dockerfile
+    restart: always
+    ports:
+      - "8000:8000"
+    environment:
+      - QDRANT_HOST=qdrant
+      - QDRANT_PORT=6333
+    depends_on:
+      - qdrant
+    networks:
+      - viewstats-network
+
+volumes:
+  qdrant_storage:
+
+networks:
+  viewstats-network:
+    driver: bridge
