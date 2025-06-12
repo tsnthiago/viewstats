@@ -149,4 +149,43 @@ Video Transcript: {video_data.get('full_transcript', '')[:Config.TRANSCRIPT_MAX_
             total_tokens = sum(r.get('total_tokens', 0) for r in results if isinstance(r, dict))
             total_cost = sum(r.get('llm_cost_usd', 0) for r in results if isinstance(r, dict))
             print(f"[LLM] Batch concluído em {time.time()-t_batch:.2f}s | Total tokens: {total_tokens} | Custo estimado: ${total_cost:.8f}")
-            return results 
+            return results
+
+    async def process_batch_stream(self, df, concurrency_limit: int):
+        """
+        Processa vídeos um a um, yieldando cada resultado assim que estiver pronto.
+        Permite controle de erros consecutivos e interrupção imediata.
+        """
+        print(f"\n[LLM] Iniciando processamento batch (stream) com sample_size={len(df)}, modelo={self.model.model_name}, concurrency={concurrency_limit}")
+        semaphore = asyncio.Semaphore(concurrency_limit)
+        processed_path = os.path.join('data', 'processed_videos.json')
+        processed = []
+        processed_ids = set()
+        if os.path.exists(processed_path):
+            try:
+                with open(processed_path, 'r', encoding='utf-8') as f:
+                    processed = json.load(f)
+                processed_ids = {v['yt_id'] for v in processed if 'yt_id' in v}
+                print(f"[LLM] Checkpoint: {len(processed_ids)} vídeos já processados serão pulados.")
+            except Exception as e:
+                print(f"[LLM] Falha ao ler checkpoint, processando tudo do zero. Erro: {e}")
+                processed = []
+                processed_ids = set()
+        to_process = df[~df['yt_id'].isin(processed_ids)]
+        results = []
+        for _, row in to_process.iterrows():
+            try:
+                res = await self.process_single_video(row, semaphore)
+                results.append(res)
+                # Salvar incrementalmente
+                all_results = processed + results
+                try:
+                    with open(processed_path, 'w', encoding='utf-8') as f:
+                        json.dump(all_results, f, indent=2, ensure_ascii=False)
+                except Exception as e:
+                    print(f"[LLM] Falha ao salvar checkpoint incremental: {e}")
+                yield res
+            except Exception as e:
+                err = {"yt_id": row.get('yt_id', None), "error": str(e)}
+                results.append(err)
+                yield err 
