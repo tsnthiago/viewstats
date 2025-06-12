@@ -1,182 +1,287 @@
 {
   "Entertainment": {
+    "talk shows": {
+      "relationship advice": null
+    },
     "reality tv": {
       "love is blind": null
     },
-    "video games": {
-      "garry's mod": null,
-      "dead island series": null,
-      "fortnite gameplay": null,
-      "roleplaying": null,
-      "obstacle courses": null,
-      "jackpot wins": null,
-      "game reviews": null,
-      "farming": null,
-      "family friendly": null,
-      "manhunt": null
+    "television": {
+      "reality shows": null,
+      "the rings of power": null,
+      "tv shows": {
+        "animated series": null
+      },
+      "reality tv": null
     },
-    "media": {
-      "television shows": null,
-      "cooking": null
-    },
-    "video essays": {
-      "pop culture": null
-    },
-    "gaming": {
-      "gaming content": null
-    },
-    "children's content": {
-      "doll play": null
-    },
-    "family & kids": {
-      "children's content": null
+    "movies": {
+      "marvel cinematic universe": null,
+      "upcoming releases": null,
+      "movies & tv": {
+        "crossovers": null
+      }
     },
     "comedy": {
-      "video games": null
+      "character-driven humor": null,
+      "lego videos": null
+    },
+    "video games": {
+      "comedy": null,
+      "story explanation": null,
+      "manhunt": null,
+      "dragon ball z": null,
+      "spiderman games": null,
+      "pokemon": null,
+      "team fortress 2": null,
+      "anime": {
+        "dragon ball": null
+      },
+      "gaming content": {
+        "streamer content": null,
+        "weapon analysis": null,
+        "let's play": null,
+        "pack openings": null
+      },
+      "gaming": {
+        "casino wins": null,
+        "gameplay": null,
+        "video game commentary": {
+          "playthroughs": null
+        }
+      },
+      "gameplay": null,
+      "family friendly": {
+        "gaming": null
+      }
+    },
+    "vtubers": {
+      "reactions": null
+    },
+    "gaming videos": {
+      "gameplay": null,
+      "pranks": null
+    },
+    "video creators": {
+      "game reviews": null
+    },
+    "children's content": {
+      "vlogs": null,
+      "family & kids": {
+        "roleplay": null
+      },
+      "animation": {
+        "minecraft": null
+      }
+    },
+    "events": {
+      "award shows": null,
+      "gambling": {
+        "poker events": null
+      }
+    },
+    "video blogging": {
+      "mukbang": null
+    },
+    "challenges": {
+      "product comparison": null
     }
   },
   "News & Politics": {
-    "royal family": {
-      "royal titles": null
-    }
-  },
-  "Education": {
-    "learning": {
-      "informal learning": {
-        "online lessons": null
-      },
-      "online learning": {
-        "career development": null
-      },
-      "language learning": {
-        "ielts speaking": null
-      },
-      "language arts": {
-        "grammar": null
+    "international relations": {
+      "conflicts": null,
+      "weather": {
+        "hurricanes": null
       }
-    },
-    "school life": {
-      "student behaviors": null
     }
   },
   "Lifestyle": {
-    "daily life": {
-      "vlogging": null,
-      "family & relationships": {
-        "sibling rivalry": null,
-        "celebrations": {
-          "birthday parties": null
-        },
-        "hobbies": {
-          "diy projects": null,
-          "crafting with dolls": null,
-          "food": {
-            "culinary arts": null
-          }
-        }
+    "family & pets": {
+      "dog ownership": null,
+      "family activities": {
+        "day in the life": null
       }
+    },
+    "hobbies": {
+      "diy projects": null,
+      "home cooking": null,
+      "gaming": null
+    },
+    "relationships": {
+      "marriage advice": null
+    },
+    "personality": {
+      "self-assessment": null
+    },
+    "health and wellness": {
+      "emotional distress": null
+    },
+    "celebrations": {
+      "birthday party": null
+    },
+    "daily routine": {
+      "morning activities": null,
+      "morning routine": {
+        "fitness habits": null
+      }
+    },
+    "reviews": {
+      "food challenge": null
+    },
+    "travel": {
+      "vacation": null
+    },
+    "work-life balance": {
+      "reduced working hours": null
+    },
+    "beauty & personal care": {
+      "skincare": null
+    },
+    "home decor": {
+      "spring refresh": null
+    },
+    "food and drink": {
+      "eating habits": null
     }
   },
   "Technology": {
-    "consumer technology": {
-      "digital menus": null,
-      "computer peripherals": {
-        "keyboards": null
+    "peripherals": {
+      "gaming keyboards": null
+    },
+    "digital marketing": {
+      "career development": null
+    },
+    "digital services": {
+      "qr codes": null
+    },
+    "mechanics": {
+      "mechanical systems": null
+    },
+    "machinery": {
+      "farming equipment": null
+    },
+    "virtual worlds": {
+      "online gaming": null,
+      "retro gaming": {
+        "gameboy": null
       }
+    },
+    "transportation": {
+      "electric vehicles": null,
+      "vehicles": {
+        "electric cars": null
+      }
+    },
+    "smartphones": {
+      "phone comparison": null
+    },
+    "earth science": {
+      "mineralogy": null
+    }
+  },
+  "Education": {
+    "education": {
+      "online courses": {
+        "google career certificates": null
+      },
+      "language learning": {
+        "ielts speaking": null,
+        "vocabulary": null
+      },
+      "early childhood education": {
+        "counting": null
+      }
+    }
+  },
+  "Sports": {
+    "sports": {
+      "football": {
+        "game highlights": null
+      },
+      "golf": {
+        "tournament highlights": null,
+        "professional players": null
+      },
+      "baseball": {
+        "gameplay": null,
+        "training and drills": null
+      },
+      "basketball": {
+        "nba": null
+      },
+      "rugby": {
+        "sevens": null
+      },
+      "cricket": {
+        "odi": null,
+        "historical matches": null,
+        "india vs pakistan": null,
+        "bangladesh cricket": null
+      },
+      "combat sports": {
+        "mma": null
+      },
+      "competition": {
+        "match highlights": null,
+        "player trades": null
+      },
+      "video games": {
+        "fifa": null
+      }
+    },
+    "poker": {
+      "tournament coverage": null
+    },
+    "broadcasting": {
+      "event coverage": null
     }
   },
   "Business & Finance": {
-    "economics": {
-      "us debt": null,
-      "retirement": {
-        "financial planning": null,
-        "property": null
-      }
+    "advertising": {
+      "product promotion": null,
+      "product reviews": null,
+      "brand collaborations": null
+    },
+    "retail": {
+      "diamonds": null
+    },
+    "retirement": {
+      "financial planning": null,
+      "property purchase": null
+    },
+    "gambling": {
+      "wsop": null
     },
     "entrepreneurship": {
-      "starting a business": null,
-      "product launch": null
+      "waste management": null
+    },
+    "restaurant industry": {
+      "technology adoption": null
     }
   },
   "Arts & Culture": {
-    "attractions": {
-      "landmarks": null
+    "landmarks": {
+      "tourist attractions": null
+    },
+    "fandom": {
+      "analysis and theory": null
     }
   },
-  "Gaming & E-sports": {
-    "gameplay": {
-      "horror": null,
-      "first-person shooters": null,
-      "multitasking": null,
-      "highlights": null,
-      "resource management": null,
-      "exploits": null,
-      "warzone rebirth island": null,
-      "roblox": null
-    },
-    "esports": {
-      "apex legends": null
-    },
-    "equipment": {
-      "custom builds": null
-    },
-    "genres": {
-      "open world": null,
-      "battle royale": null
-    },
-    "game reviews": {
-      "fall guys": null
-    },
-    "video games": {
-      "game recommendations": null,
-      "horror games": null
-    },
-    "sports games": {
-      "football fusion 2": null
-    },
-    "sandbox games": {
-      "minecraft": null
-    },
-    "simulation games": {
-      "farming simulator 22": null
-    },
-    "roblox": {
-      "murder mystery": null,
-      "game updates": null
-    },
-    "minecraft": {
-      "survival": null
-    },
-    "cs2": {
-      "case openings": null,
-      "skins": null
-    },
-    "mobile gaming": {
-      "dragon ball legends": null
-    },
-    "fighting games": {
-      "character analysis": null
-    },
-    "first-person shooters": {
-      "call of duty": null
-    },
-    "golf": {
-      "tournament highlights": null,
-      "professional golf": null
-    },
-    "competition": {
-      "athlete performance": null
-    },
-    "action games": {
-      "zombie games": null
+  "Food & Travel": {
+    "destinations": {
+      "north america": null,
+      "historical sites": null,
+      "island living": null,
+      "american food": null,
+      "urban exploration": null
     }
   },
-  "How-to & DIY": {},
-  "Sports & Recreation": {
-    "golf": {
-      "professional golf": null,
-      "tournament highlights": null,
-      "athlete performance": null
+  "How-to & Hobbies": {
+    "collecting": {
+      "lego reviews": null,
+      "lego sets": null,
+      "dolls": null,
+      "miniature world": null,
+      "toy modification": null
     }
   }
 }

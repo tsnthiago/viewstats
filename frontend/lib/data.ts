@@ -152,7 +152,6 @@ export const fetchVideosBySearch = async (
   page: number = 1,
   limit: number = 12
 ): Promise<{ videos: Video[]; total: number }> => {
-  // Novo: usa POST, compatível com backend real
   const body = {
     query: query || "",
     topic_filter: filters?.topics?.[0] || null,
@@ -170,18 +169,18 @@ export const fetchVideosBySearch = async (
   const videos = (data.results || []).map((video: any) => ({
     id: video.id,
     title: video.title,
-    uploadDate: video.uploadDate || "2024-01-01",
-    viewCount: video.viewCount || 1000,
-    duration: video.duration || "10:00",
-    thumbnailUrl: video.thumbnailUrl || `/placeholder.svg?height=225&width=400&text=${encodeURIComponent(video.title)}`,
-    description: video.description || "No description available.",
-    topics: video.topics_path || [],
-    transcript: video.transcript || [],
-    language: video.language || "Unknown",
-    tags: video.tags || [],
-    videoUrl: video.videoUrl || "https://www.youtube.com/watch?v=mock",
+    uploadDate: video.uploadDate,
+    viewCount: video.viewCount,
+    duration: video.duration,
+    thumbnailUrl: video.thumbnailUrl,
+    description: video.description,
+    topics: video.topics_path,
+    transcript: video.transcript,
+    language: video.language,
+    tags: video.tags,
+    videoUrl: video.videoUrl,
     relevanceScore: video.score,
-    channel: video.channel || { id: "channel-mock", name: "Backend Channel", avatarUrl: "" },
+    channel: video.channel,
   }))
   return { videos, total: data.total || videos.length }
 }
@@ -209,14 +208,14 @@ export const fetchVideosByTopic = async (
       uploadDate: video.upload_date,
       viewCount: video.view_count,
       duration: video.duration,
-      thumbnailUrl: video.thumbnail || `/placeholder.svg?height=225&width=400&text=${encodeURIComponent(video.title)}`,
-      description: video.description || "No description available.",
-      topics: video.topics || [],
-      transcript: video.transcript || [],
-      language: video.language || "Unknown",
-      tags: video.tags || [],
-      videoUrl: `https://www.youtube.com/watch?v=${video.yt_id}`,
-      channel: video.channel || { id: "channel-mock", name: "Backend Channel", avatarUrl: "" }
+      thumbnailUrl: video.thumbnail,
+      description: video.description,
+      topics: video.topics,
+      transcript: video.transcript,
+      language: video.language,
+      tags: video.tags,
+      videoUrl: video.videoUrl,
+      channel: video.channel
   }));
 
   return { videos, total: data.total }
@@ -229,18 +228,18 @@ export const fetchVideoById = async (id: string): Promise<Video | undefined> => 
   return {
     id: video.id,
     title: video.title,
-    uploadDate: video.uploadDate || "2024-01-01",
-    viewCount: video.viewCount || 1000,
-    duration: video.duration || "10:00",
-    thumbnailUrl: video.thumbnailUrl || `/placeholder.svg?height=225&width=400&text=${encodeURIComponent(video.title)}`,
-    description: video.description || "No description available.",
-    topics: video.topics_path || [],
-    transcript: video.transcript || [],
-    language: video.language || "Unknown",
-    tags: video.tags || [],
-    videoUrl: video.videoUrl || "https://www.youtube.com/watch?v=mock",
+    uploadDate: video.uploadDate,
+    viewCount: video.viewCount,
+    duration: video.duration,
+    thumbnailUrl: video.thumbnailUrl,
+    description: video.description,
+    topics: video.topics_path,
+    transcript: video.transcript,
+    language: video.language,
+    tags: video.tags,
+    videoUrl: video.videoUrl,
     relevanceScore: video.score,
-    channel: video.channel || { id: "channel-mock", name: "Backend Channel", avatarUrl: "" },
+    channel: video.channel,
   }
 }
 

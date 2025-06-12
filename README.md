@@ -7,10 +7,11 @@
 ### ✅ Highlights
 
 - AI-generated **multi-label classification** for both **videos** and **channels**
-- Derivation of a **custom hierarchical taxonomy** based on content
+- Derivation of a **custom hierarchical taxonomy** based on content, using LLMs (OpenAI GPT-4, Google Gemini)
 - Real-time **semantic search engine** using vector embeddings and Qdrant
-- Full-stack solution including **FastAPI backend** and **Next.js frontend**
+- Full-stack solution including **FastAPI backend**, **Next.js frontend**, and a robust **Python data processing pipeline**
 - Designed with **modularity**, **scalability**, and **transparency**
+- **Automated, auditable, and checkpointed data processing pipeline** (see `scripts/`)
 
 ---
 
@@ -18,10 +19,11 @@
 
 - **Backend**: FastAPI (Python 3.11)
 - **Frontend**: Next.js + TailwindCSS (React-based)
-- **Embeddings**: `all-MiniLM-L6-v2` via `sentence-transformers`
+- **Embeddings**: `all-MiniLM-L6-v2` via `sentence-transformers` (OpenAI and Gemini optional for topic classification)
 - **Vector Store**: Qdrant
-- **Topic Generation**: OpenAI GPT-4 (LLM), Google Gemini (opcional)
+- **Topic Generation**: OpenAI GPT-4, Google Gemini
 - **Infrastructure**: Docker & Docker Compose
+- **Data Processing Pipeline**: Python scripts (see below)
 
 ---
 
@@ -84,14 +86,55 @@ viewstats/
 │   ├── public/
 │   │   └── images/             # Static images
 │   └── styles/                 # CSS/SCSS files
-├── scripts/                    # One-off scripts
-│   ├── process_csv.py
-│   ├── build_taxonomy.py
-│   └── index_videos_qdrant.py
+├── scripts/                    # Data processing pipeline (see below)
+│   ├── main.py                 # Orchestrates the full pipeline
+│   ├── config.py               # Centralized configuration
+│   ├── data_handler.py         # Data loading and cleaning
+│   ├── llm_processor.py        # LLM-based metadata extraction
+│   ├── taxonomy_builder.py     # Taxonomy consolidation
+│   ├── taxonomy_draft_builder.py
+│   ├── taxonomy_refiner.py
+│   ├── taxonomy_mapper.py
+│   ├── result_handler.py
+│   ├── indexer.py              # Qdrant vector indexing
+│   ├── embedding_service.py
+│   ├── requirements.txt
+│   └── input/                  # Input CSVs
 ├── docker-compose.yaml
 ├── .env
 └── README.md
 ```
+
+---
+
+## 🛠️ Data Processing Pipeline (`scripts/`)
+
+The `scripts/` directory contains a robust, modular pipeline for processing and enriching video data before it is served by the backend and frontend. **This pipeline is responsible for:**
+
+- Loading and cleaning raw video data (CSV)
+- Extracting rich metadata from each video using LLMs (description, named entities, intention, hierarchical topics)
+- Building and refining a hierarchical taxonomy of topics (LLM-driven, two-pass refinement)
+- Mapping each video to taxonomy IDs
+- Indexing all videos in Qdrant with semantic embeddings and rich payloads
+- Saving checkpoints and logs for full auditability and fault tolerance
+
+**Pipeline Steps:**
+1. **Data Preparation:** Load and clean CSV data (`data_handler.py`)
+2. **LLM Processing:** Extract metadata and topics for each video (`llm_processor.py`)
+3. **Draft Taxonomy:** Aggregate all topic paths into a draft taxonomy (`taxonomy_draft_builder.py`)
+4. **Taxonomy Refinement:** Use LLM to merge and re-parent topics, producing a canonical taxonomy (`taxonomy_refiner.py`)
+5. **Taxonomy Consolidation:** Save the final taxonomy for API use (`taxonomy_builder.py`)
+6. **Mapping:** Map each video to taxonomy IDs (`taxonomy_mapper.py`)
+7. **Indexing:** Index videos in Qdrant with embeddings and metadata (`indexer.py`)
+8. **Reporting:** Output logs, cost, and token usage for each step
+
+**To run the full pipeline:**
+```bash
+cd scripts
+python main.py
+```
+- All intermediate and final artifacts are saved in `scripts/data/`
+- Checkpoints allow for safe resumption in case of interruption
 
 ---
 

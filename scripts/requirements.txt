@@ -1,0 +1,9 @@
+pandas
+matplotlib
+seaborn
+google-genai
+tqdm
+python-dotenv
+qdrant-client
+sentence-transformers
+openai

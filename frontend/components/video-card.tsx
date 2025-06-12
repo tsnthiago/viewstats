@@ -37,6 +37,16 @@ const formatDate = (dateString: string): string => {
 export function VideoCard({ video, showRelevance = false }: VideoCardProps) {
   const router = useRouter()
 
+  // LOGS DE DEBUG PARA THUMBNAILS
+  if (typeof window !== 'undefined') {
+    console.log('[VideoCard] video.id:', video.id)
+    console.log('[VideoCard] video.thumbnailUrl:', video.thumbnailUrl)
+    if (video.channel) {
+      console.log('[VideoCard] video.channel.id:', video.channel.id)
+      console.log('[VideoCard] video.channel.avatarUrl:', video.channel.avatarUrl)
+    }
+  }
+
   const handleChannelClick = (e: React.MouseEvent) => {
     e.preventDefault()
     e.stopPropagation()
@@ -47,17 +57,21 @@ export function VideoCard({ video, showRelevance = false }: VideoCardProps) {
     <Link href={`/video/${video.id}`} className="block group">
       <Card className="overflow-hidden h-full flex flex-col rounded-xl shadow-md hover:shadow-xl transition-shadow duration-300 ease-in-out bg-card">
         <CardHeader className="p-0 relative">
-          <Image
-            src={video.thumbnailUrl}
-            alt={`Thumbnail for ${video.title}`}
-            width={400}
-            height={225}
-            className="aspect-video object-cover w-full group-hover:scale-105 transition-transform duration-300"
-          />
-          <div className="absolute bottom-2 right-2 bg-black/70 text-white px-2 py-1 text-xs rounded flex items-center">
-            <Clock size={14} className="mr-1" />
-            {video.duration}
-          </div>
+          {video.thumbnailUrl && (
+            <Image
+              src={video.thumbnailUrl}
+              alt={video.title ? `Thumbnail for ${video.title}` : 'Video thumbnail'}
+              width={400}
+              height={225}
+              className="aspect-video object-cover w-full group-hover:scale-105 transition-transform duration-300"
+            />
+          )}
+          {video.duration && (
+            <div className="absolute bottom-2 right-2 bg-black/70 text-white px-2 py-1 text-xs rounded flex items-center">
+              <Clock size={14} className="mr-1" />
+              {video.duration}
+            </div>
+          )}
           {showRelevance && video.relevanceScore && (
             <div className="absolute top-2 left-2 bg-primary text-primary-foreground px-2 py-1 text-xs rounded">
               {Math.round(video.relevanceScore * 100)}% match
@@ -65,38 +79,50 @@ export function VideoCard({ video, showRelevance = false }: VideoCardProps) {
           )}
         </CardHeader>
         <CardContent className="p-4 flex-grow">
-          <CardTitle className="text-lg font-semibold mb-2 leading-tight group-hover:text-primary transition-colors line-clamp-2">
-            {video.title}
-          </CardTitle>
+          {video.title && (
+            <CardTitle className="text-lg font-semibold mb-2 leading-tight group-hover:text-primary transition-colors line-clamp-2">
+              {video.title}
+            </CardTitle>
+          )}
 
           {/* Channel Info */}
-          <div className="flex items-center gap-2 mb-2">
-            <Image
-              src={video.channel.avatarUrl || "/placeholder.svg"}
-              alt={video.channel.name}
-              width={20}
-              height={20}
-              className="rounded-full"
-            />
-            <button
-              onClick={handleChannelClick}
-              className="text-sm text-muted-foreground hover:text-primary transition-colors text-left"
-            >
-              {video.channel.name}
-            </button>
-          </div>
+          {video.channel && video.channel.name && (
+            <div className="flex items-center gap-2 mb-2">
+              {video.channel.avatarUrl && (
+                <Image
+                  src={video.channel.avatarUrl}
+                  alt={video.channel.name}
+                  width={20}
+                  height={20}
+                  className="rounded-full"
+                />
+              )}
+              <button
+                onClick={handleChannelClick}
+                className="text-sm text-muted-foreground hover:text-primary transition-colors text-left"
+              >
+                {video.channel.name}
+              </button>
+            </div>
+          )}
 
           {/* Video Metadata */}
-          <div className="flex items-center gap-4 text-xs text-muted-foreground mb-2">
-            <div className="flex items-center gap-1">
-              <Eye size={12} />
-              {formatViewCount(video.viewCount)} views
+          {(video.viewCount !== undefined || video.uploadDate) && (
+            <div className="flex items-center gap-4 text-xs text-muted-foreground mb-2">
+              {video.viewCount !== undefined && (
+                <div className="flex items-center gap-1">
+                  <Eye size={12} />
+                  {formatViewCount(video.viewCount)} views
+                </div>
+              )}
+              {video.uploadDate && (
+                <div className="flex items-center gap-1">
+                  <Calendar size={12} />
+                  {formatDate(video.uploadDate)}
+                </div>
+              )}
             </div>
-            <div className="flex items-center gap-1">
-              <Calendar size={12} />
-              {formatDate(video.uploadDate)}
-            </div>
-          </div>
+          )}
 
           {video.semanticSnippet && (
             <p
