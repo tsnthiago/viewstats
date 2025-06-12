@@ -1,12 +1,19 @@
 from fastapi import FastAPI, File, UploadFile, Request
 from fastapi.responses import JSONResponse
 from app.services.file_processor import process_csv_file
-from app.services.qdrant_service import QdrantService
-from app.api import search, taxonomy, video, channel
+from app.api import search, video, channel
 from app.api import taxonomy_endpoints
 from app.services import taxonomy_service
+from app.services.qdrant_service import QdrantService
+import os
 
 app = FastAPI()
+
+qdrant_service = QdrantService(
+    host=os.environ.get("QDRANT_HOST", "qdrant"),
+    port=int(os.environ.get("QDRANT_PORT", 6333)),
+    collection_name=os.environ.get("QDRANT_COLLECTION_NAME", "videos_viewstats")
+)
 
 app.include_router(search.router)
 app.include_router(video.router)

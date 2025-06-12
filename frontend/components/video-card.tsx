@@ -48,7 +48,7 @@ export function VideoCard({ video, showRelevance = false }: VideoCardProps) {
       <Card className="overflow-hidden h-full flex flex-col rounded-xl shadow-md hover:shadow-xl transition-shadow duration-300 ease-in-out bg-card">
         <CardHeader className="p-0 relative">
           <Image
-            src={`https://i.ytimg.com/vi/${video.id}/hqdefault.jpg`}
+            src={video.thumbnailUrl}
             alt={`Thumbnail for ${video.title}`}
             width={400}
             height={225}

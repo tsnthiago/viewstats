@@ -46,6 +46,8 @@ services:
       - api
     networks:
       - viewstats-network
+    environment:
+      - NEXT_PUBLIC_BACKEND_API_URL=http://viewstats_api:8000
 
 volumes:
   qdrant_storage:

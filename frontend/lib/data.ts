@@ -248,13 +248,30 @@ export const fetchVideoById = async (id: string): Promise<Video | undefined> => 
 }
 
 export const fetchTaxonomy = async (): Promise<Topic[]> => {
-  const response = await fetch(`${baseUrl}/taxonomy`)
-  if (!response.ok) {
-    throw new Error('Failed to fetch taxonomy')
+  console.log("API: Fetching taxonomy");
+  try {
+    const response = await fetch(`/api/taxonomy`);
+    if (!response.ok) {
+      throw new Error(`Failed to fetch taxonomy: ${response.statusText}`);
+    }
+    const data = await response.json();
+
+    const transformTaxonomy = (node: any, path: string[] = []): Topic[] => {
+      return Object.keys(node).map(key => {
+        const currentPath = [...path, key];
+        const children = node[key] ? transformTaxonomy(node[key], currentPath) : [];
+        return {
+          id: currentPath.join(" > "),
+          name: key,
+          children: children,
+          level: currentPath.length -1
+        };
+      });
+    };
+
+    return transformTaxonomy(data);
+  } catch (error) {
+    console.error("Error fetching or processing taxonomy:", error);
+    return [];
   }
-  const data = await response.json()
-  // Se vier array, retorna direto; se vier objeto, pega .taxonomy
-  if (Array.isArray(data)) return data
-  if (data.taxonomy) return data.taxonomy
-  return []
-}
+};

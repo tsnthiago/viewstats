@@ -1,12 +1,12 @@
+const BACKEND_API_URL = process.env.NEXT_PUBLIC_BACKEND_API_URL || "http://localhost:8000";
+
 /** @type {import('next').NextConfig} */
 const nextConfig = {
   async rewrites() {
     return [
       {
         source: "/api/:path*",
-        // Points to the backend service when running in Docker.
-        // For local development, set BACKEND_URL in a .env.local file.
-        destination: `${process.env.BACKEND_URL || "http://api:8000"}/:path*`,
+        destination: `${BACKEND_API_URL}/:path*`,
       },
     ];
   },
