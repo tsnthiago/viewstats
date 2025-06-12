@@ -1,2 +1,5 @@
-fastapi
 uvicorn 
+fastapi
+pandas
+qdrant-client
+python-dotenv

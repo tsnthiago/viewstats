@@ -1,9 +1,18 @@
-from fastapi import APIRouter
+from fastapi import APIRouter, Query
 from fastapi.responses import JSONResponse
 import os
 import json
 
 router = APIRouter()
+
+MOCK_TAXONOMY = [
+    {"id": "ai", "name": "Artificial Intelligence", "videoCount": 35},
+    {"id": "ml", "name": "Machine Learning", "videoCount": 28},
+    {"id": "web-dev", "name": "Web Development", "videoCount": 42},
+    {"id": "react", "name": "React", "videoCount": 24},
+    {"id": "python", "name": "Python", "videoCount": 31},
+    {"id": "data-science", "name": "Data Science", "videoCount": 19},
+]
 
 @router.get(
     "/taxonomy",
@@ -32,12 +41,9 @@ router = APIRouter()
         }
     }
 )
-def get_taxonomy():
-    """Endpoint GET /taxonomy — retorna a árvore de tópicos do taxonomy.json."""
-    data_path = os.path.join(os.path.dirname(__file__), "..", "data", "taxonomy.json")
-    try:
-        with open(data_path, "r") as f:
-            taxonomy = json.load(f)
-        return JSONResponse(content=taxonomy)
-    except Exception as e:
-        return JSONResponse(status_code=500, content={"error": str(e)}) 
+def get_taxonomy(flat: bool = Query(False, description="Return flat array if true")):
+    """Endpoint GET /taxonomy — retorna a árvore de tópicos do taxonomy.json ou mock."""
+    if flat:
+        return MOCK_TAXONOMY
+    # Resposta padrão (mantém compatibilidade)
+    return {"taxonomy": MOCK_TAXONOMY} 

@@ -1,8 +1,8 @@
-from fastapi import APIRouter
+from fastapi import APIRouter, Query, Body, Request
 from app.models.search import SearchRequest
-from typing import List
+from typing import List, Optional
 from pydantic import BaseModel, Field
-from fastapi import Body
+from fastapi.responses import JSONResponse
 
 router = APIRouter()
 
@@ -15,51 +15,16 @@ class SearchResultItem(BaseModel):
 
 class SearchResponse(BaseModel):
     results: List[SearchResultItem]
+    total: int
 
-@router.post(
-    "/search",
-    response_model=SearchResponse,
-    summary="Busca semântica de vídeos",
-    response_description="Lista de vídeos relevantes",
-    tags=["Busca"],
-    description="""
-    Realiza busca semântica por vídeos, podendo filtrar por tópico hierárquico.
-    Retorna os vídeos mais relevantes de acordo com o embedding e o filtro.
-    """,
-    responses={
-        200: {
-            "description": "Busca realizada com sucesso",
-            "content": {
-                "application/json": {
-                    "example": {
-                        "results": [
-                            {
-                                "id": "video1",
-                                "score": 0.92,
-                                "title": "Como usar FastAPI",
-                                "description": "Tutorial completo de FastAPI para APIs modernas.",
-                                "topics_path": ["Tecnologia > Programação > Python"]
-                            }
-                        ]
-                    }
-                }
-            }
-        }
-    }
-)
-def search(
-    request: SearchRequest = Body(
-        ..., 
-        example={
-            "query": "FastAPI",
-            "topic_filter": "Tecnologia > Programação > Python",
-            "top_k": 5
-        }
-    )
+@router.get("/search", response_model=SearchResponse)
+def search_get(
+    q: Optional[str] = Query("", alias="q"),
+    topic_filter: Optional[str] = Query(None),
+    page: int = Query(1),
+    limit: int = Query(12)
 ):
-    """Busca semântica de vídeos com filtro opcional de tópico."""
-    # Simular embedding e busca no Qdrant
-    # No futuro: gerar embedding real e consultar Qdrant
+    """GET /search para compatibilidade temporária com frontend (dados mockados)."""
     dummy_results = [
         SearchResultItem(
             id="video1",
@@ -76,4 +41,25 @@ def search(
             topics_path=["Tecnologia > IA > Busca Semântica"]
         )
     ]
-    return SearchResponse(results=dummy_results[:request.top_k]) 
+    return SearchResponse(results=dummy_results[:limit], total=2)
+
+@router.post("/search", response_model=SearchResponse)
+def search_post(request: SearchRequest = Body(...)):
+    """POST /search (mantém lógica mockada)."""
+    dummy_results = [
+        SearchResultItem(
+            id="video1",
+            score=0.92,
+            title="Como usar FastAPI",
+            description="Tutorial completo de FastAPI para APIs modernas.",
+            topics_path=["Tecnologia > Programação > Python"]
+        ),
+        SearchResultItem(
+            id="video2",
+            score=0.89,
+            title="Introdução ao Qdrant",
+            description="Como usar Qdrant para busca vetorial.",
+            topics_path=["Tecnologia > IA > Busca Semântica"]
+        )
+    ]
+    return SearchResponse(results=dummy_results[:request.top_k], total=2) 

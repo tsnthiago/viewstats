@@ -154,44 +154,40 @@ export const fetchVideosBySearch = async (
   page: number = 1,
   limit: number = 12
 ): Promise<{ videos: Video[]; total: number }> => {
-  console.log(`API: Searching for videos with query: "${query}"`, { filters, page, limit })
+  // Corrigido: usa GET, espera resposta {results, total}
   const params = new URLSearchParams({
     q: query,
     page: page.toString(),
     limit: limit.toString(),
   })
-
   Object.entries(filters || {}).forEach(([key, value]) => {
     if (value) {
       params.append(key, value.toString())
     }
   })
-
   const response = await fetch(`${baseUrl}/search?${params.toString()}`)
   if (!response.ok) {
     throw new Error("Failed to fetch search results")
   }
   const data = await response.json()
-
-  // The backend returns a paginated structure
-  const videos = data.videos.map((video: any) => ({
-    id: video.yt_id,
+  // Espera {results, total}
+  const videos = (data.results || []).map((video: any) => ({
+    id: video.id,
     title: video.title,
-    uploadDate: video.upload_date,
-    viewCount: video.view_count,
-    duration: video.duration,
-    thumbnailUrl: video.thumbnail || `/placeholder.svg?height=225&width=400&text=${encodeURIComponent(video.title)}`,
+    uploadDate: video.uploadDate || "2024-01-01",
+    viewCount: 1000,
+    duration: "10:00",
+    thumbnailUrl: video.thumbnailUrl || `/placeholder.svg?height=225&width=400&text=${encodeURIComponent(video.title)}`,
     description: video.description || "No description available.",
-    topics: video.topics || [],
+    topics: video.topics_path || [],
     transcript: video.transcript || [],
     language: video.language || "Unknown",
     tags: video.tags || [],
-    videoUrl: `https://www.youtube.com/watch?v=${video.yt_id}`,
-    relevanceScore: video.distance,
+    videoUrl: video.videoUrl || "https://www.youtube.com/watch?v=mock",
+    relevanceScore: video.score,
     channel: video.channel || { id: "channel-mock", name: "Backend Channel", avatarUrl: "" },
   }))
-
-  return { videos, total: data.total }
+  return { videos, total: data.total || videos.length }
 }
 
 // Keep the rest of the functions the same, just update console.log messages to English
@@ -232,9 +228,25 @@ export const fetchVideosByTopic = async (
 }
 
 export const fetchVideoById = async (id: string): Promise<Video | undefined> => {
-    // The backend doesn't have a /video/{id} endpoint, so we can't implement this yet.
-    console.log(`API: Fetching video by ID: "${id}"`)
-    return undefined;
+  const response = await fetch(`${baseUrl}/video/${id}`)
+  if (!response.ok) return undefined
+  const video = await response.json()
+  return {
+    id: video.id,
+    title: video.title,
+    uploadDate: video.uploadDate || "2024-01-01",
+    viewCount: video.viewCount || 1000,
+    duration: video.duration || "10:00",
+    thumbnailUrl: video.thumbnailUrl || `/placeholder.svg?height=225&width=400&text=${encodeURIComponent(video.title)}`,
+    description: video.description || "No description available.",
+    topics: video.topics_path || [],
+    transcript: video.transcript || [],
+    language: video.language || "Unknown",
+    tags: video.tags || [],
+    videoUrl: video.videoUrl || "https://www.youtube.com/watch?v=mock",
+    relevanceScore: video.score,
+    channel: video.channel || { id: "channel-mock", name: "Backend Channel", avatarUrl: "" },
+  }
 }
 
 const mockTaxonomy: Topic[] = [
@@ -247,16 +259,13 @@ const mockTaxonomy: Topic[] = [
 ]
 
 export const fetchTaxonomy = async (): Promise<Topic[]> => {
-  console.log("API: Fetching taxonomy")
-  const response = await fetch(`${baseUrl}/taxonomy`);
+  const response = await fetch(`${baseUrl}/taxonomy?flat=1`)
   if (!response.ok) {
-      throw new Error('Failed to fetch taxonomy');
+    throw new Error('Failed to fetch taxonomy')
   }
-  const data = await response.json();
-  // Map backend response to frontend Topic type
-  return data.map((topic: any) => ({
-      id: topic.Topic,
-      name: topic.Name,
-      videoCount: topic.Count
-  }));
+  const data = await response.json()
+  // Se vier array, retorna direto; se vier objeto, pega .taxonomy
+  if (Array.isArray(data)) return data
+  if (data.taxonomy) return data.taxonomy
+  return []
 }
