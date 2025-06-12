@@ -6,7 +6,7 @@ const nextConfig = {
         source: "/api/:path*",
         // Points to the backend service when running in Docker.
         // For local development, set BACKEND_URL in a .env.local file.
-        destination: `${process.env.BACKEND_URL || "http://backend:8000"}/:path*`,
+        destination: `${process.env.BACKEND_URL || "http://api:8000"}/:path*`,
       },
     ];
   },

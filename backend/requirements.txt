@@ -3,3 +3,6 @@ fastapi
 pandas
 qdrant-client
 python-dotenv
+python-multipart
+sentence-transformers
+openai

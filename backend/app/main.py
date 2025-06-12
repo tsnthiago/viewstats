@@ -3,14 +3,19 @@ from fastapi.responses import JSONResponse
 from app.services.file_processor import process_csv_file
 from app.services.qdrant_service import QdrantService
 from app.api import search, taxonomy, video, channel
+from app.api import taxonomy_endpoints
+from app.services import taxonomy_service
 
 app = FastAPI()
-qdrant_service = QdrantService()
 
 app.include_router(search.router)
-app.include_router(taxonomy.router)
 app.include_router(video.router)
 app.include_router(channel.router)
+app.include_router(taxonomy_endpoints.router)
+
+@app.on_event("startup")
+def startup_event():
+    taxonomy_service.load_taxonomy()
 
 @app.get("/")
 def read_root():

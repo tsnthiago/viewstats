@@ -1,0 +1,244 @@
+{
+  "Entertainment": {
+    "talk shows": {
+      "relationship advice": null
+    },
+    "celebrity gossip": {
+      "reality tv": null
+    },
+    "tv shows": {
+      "sitcoms": null,
+      "lord of the rings": null
+    },
+    "television": {
+      "talk show": null,
+      "cooking shows": null
+    },
+    "video games": {
+      "maze games": null,
+      "zombie games": null,
+      "horror games": null,
+      "fall guys": null,
+      "pokemon": null,
+      "casino content": null,
+      "kirby": null,
+      "godzilla vs kong": null,
+      "gameplay": null,
+      "streaming": null,
+      "community content": null,
+      "video games": null,
+      "gaming reviews": null
+    },
+    "gaming": {
+      "let's play": null,
+      "pranks": null
+    },
+    "gaming content": {
+      "let's play": null,
+      "comedy": null
+    },
+    "roleplay": {
+      "gaming videos": null
+    },
+    "family friendly": {
+      "gaming videos": null
+    },
+    "youtube": {
+      "automotive shows": null
+    },
+    "children's content": {
+      "roleplay": null,
+      "birthday party": null,
+      "kids shows": null
+    },
+    "online video": {
+      "family friendly": null,
+      "gaming content": null,
+      "unboxing": null
+    },
+    "theme parks": {
+      "disney parks": null
+    },
+    "pop culture": {
+      "star wars": null
+    },
+    "challenges": {
+      "competition": null
+    },
+    "gambling": {
+      "card games": null
+    },
+    "casual gaming": null
+  },
+  "News & Politics": {
+    "international relations": {
+      "israel-palestine conflict": null,
+      "royal family": {
+        "prince harry and meghan": null
+      }
+    }
+  },
+  "Lifestyle": {
+    "family": {
+      "dog training tips": null,
+      "vlogging": null,
+      "celebration": null,
+      "school preparation": null
+    },
+    "hobbies": {
+      "diy projects": null,
+      "italian cuisine": null,
+      "spring refresh": null
+    },
+    "food": {
+      "chef challenges": null,
+      "burger comparisons": null,
+      "food asmr": null
+    },
+    "habits": {
+      "morning routines": null,
+      "time management": null
+    },
+    "travel": {
+      "vacation": null
+    },
+    "beauty & fashion": {
+      "skincare": null
+    }
+  },
+  "Technology": {
+    "automotive": {
+      "electric vehicles": null
+    },
+    "computer peripherals": {
+      "keyboards": null
+    },
+    "mobile devices": {
+      "smartphones": null
+    },
+    "simulation": {
+      "testing methods": null
+    }
+  },
+  "Education": {
+    "online learning": {
+      "career development": null,
+      "language learning": {
+        "ielts speaking": null
+      },
+      "vocabulary": {
+        "english grammar": null
+      }
+    },
+    "school life": {
+      "student behavior": null,
+      "mathematics": {
+        "counting": null,
+        "numbers": null
+      }
+    },
+    "life lessons": {
+      "relationships": null,
+      "how-to": {
+        "culinary techniques": null
+      }
+    }
+  },
+  "Hobbies & Interests": {
+    "collecting": {
+      "lego sets": null,
+      "lego creations": null,
+      "dolls": null,
+      "sensory toys": null
+    },
+    "firearms": {
+      "pistols": null
+    },
+    "model railways": {
+      "miniature wunderland": null
+    }
+  },
+  "Food & Drink": {
+    "cooking": {
+      "recipes": {
+        "dips & spreads": null,
+        "pasta dishes": null
+      },
+      "culinary competition": null,
+      "snacks": {
+        "packed lunch": null
+      },
+      "restaurants": {
+        "fast food": null,
+        "restaurant reviews": {
+          "nashville hot chicken": null
+        }
+      },
+      "eating shows": {
+        "mukbang": null
+      }
+    }
+  },
+  "Business & Finance": {
+    "personal finance": {
+      "retirement planning": {
+        "property purchase": null
+      }
+    },
+    "winnings": {
+      "jackpot": null
+    },
+    "economics": {
+      "bond market": null,
+      "market analysis": {
+        "rare items": null
+      }
+    },
+    "entrepreneurship": {
+      "garbage collection": null,
+      "marketing": {
+        "product launch": null,
+        "sponsorships": null,
+        "product promotion": null
+      },
+      "retail": {
+        "gemstones": null,
+        "food service": {
+          "restaurant technology": null
+        }
+      }
+    }
+  },
+  "Arts & Culture": {
+    "landmarks": {
+      "iconic locations": null
+    },
+    "internet culture": {
+      "gaming": null
+    },
+    "middle eastern cuisine": {
+      "hummus": null
+    }
+  },
+  "Sports & Outdoors": {
+    "competition": {
+      "professional golf": null,
+      "challenges": null,
+      "finals": null,
+      "match analysis": null,
+      "ufc": null,
+      "india vs pakistan": null,
+      "nba": null,
+      "sevens": null,
+      "tournament": null,
+      "tournament highlights": null,
+      "odi highlights": null,
+      "historical matches": null,
+      "player profiles": null,
+      "live at-bats": null,
+      "mma": null,
+      "player transactions": null,
+      "bangladesh cricket": null
+    }
+  }
+}

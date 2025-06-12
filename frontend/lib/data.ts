@@ -154,29 +154,27 @@ export const fetchVideosBySearch = async (
   page: number = 1,
   limit: number = 12
 ): Promise<{ videos: Video[]; total: number }> => {
-  // Corrigido: usa GET, espera resposta {results, total}
-  const params = new URLSearchParams({
-    q: query,
-    page: page.toString(),
-    limit: limit.toString(),
+  // Novo: usa POST, compatível com backend real
+  const body = {
+    query: query || "",
+    topic_filter: filters?.topics?.[0] || null,
+    top_k: limit
+  }
+  const response = await fetch(`/api/search`, {
+    method: "POST",
+    headers: { "Content-Type": "application/json" },
+    body: JSON.stringify(body)
   })
-  Object.entries(filters || {}).forEach(([key, value]) => {
-    if (value) {
-      params.append(key, value.toString())
-    }
-  })
-  const response = await fetch(`${baseUrl}/search?${params.toString()}`)
   if (!response.ok) {
     throw new Error("Failed to fetch search results")
   }
   const data = await response.json()
-  // Espera {results, total}
   const videos = (data.results || []).map((video: any) => ({
     id: video.id,
     title: video.title,
     uploadDate: video.uploadDate || "2024-01-01",
-    viewCount: 1000,
-    duration: "10:00",
+    viewCount: video.viewCount || 1000,
+    duration: video.duration || "10:00",
     thumbnailUrl: video.thumbnailUrl || `/placeholder.svg?height=225&width=400&text=${encodeURIComponent(video.title)}`,
     description: video.description || "No description available.",
     topics: video.topics_path || [],
@@ -249,17 +247,8 @@ export const fetchVideoById = async (id: string): Promise<Video | undefined> => 
   }
 }
 
-const mockTaxonomy: Topic[] = [
-  { id: "ai", name: "Artificial Intelligence", videoCount: 35 },
-  { id: "ml", name: "Machine Learning", videoCount: 28 },
-  { id: "web-dev", name: "Web Development", videoCount: 42 },
-  { id: "react", name: "React", videoCount: 24 },
-  { id: "python", name: "Python", videoCount: 31 },
-  { id: "data-science", name: "Data Science", videoCount: 19 },
-]
-
 export const fetchTaxonomy = async (): Promise<Topic[]> => {
-  const response = await fetch(`${baseUrl}/taxonomy?flat=1`)
+  const response = await fetch(`${baseUrl}/taxonomy`)
   if (!response.ok) {
     throw new Error('Failed to fetch taxonomy')
   }
