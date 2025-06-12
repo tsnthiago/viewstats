@@ -283,5 +283,42 @@
       "miniature world": null,
       "toy modification": null
     }
+  },
+  "Finance & Business": {
+    "retirement": {
+      "financial planning": null,
+      "retirement planning": {
+        "property purchase": null
+      }
+    },
+    "entrepreneurship": {
+      "waste management": null,
+      "restaurant industry": {
+        "technology adoption": null
+      },
+      "marketing": {
+        "product reviews": null,
+        "partnerships": {
+          "brand collaborations": null
+        }
+      }
+    },
+    "gambling": {
+      "wsop": null
+    }
+  },
+  "Hobbies & Interests": {
+    "collecting": {
+      "lego reviews": null,
+      "lego sets": null,
+      "dolls": null,
+      "gemstones": null,
+      "magic: the gathering": null
+    },
+    "building toys": {
+      "lego builds": null,
+      "miniature world": null,
+      "toy modification": null
+    }
   }
 }

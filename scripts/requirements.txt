@@ -2,6 +2,7 @@ pandas
 matplotlib
 seaborn
 google-genai
+google-generativeai
 tqdm
 python-dotenv
 qdrant-client

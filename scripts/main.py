@@ -14,6 +14,9 @@ import json
 import requests
 import os
 
+# NOVO: Limite de erros consecutivos permitidos
+MAX_CONSECUTIVE_ERRORS = 5
+
 async def main():
     load_dotenv()
     logging.basicConfig(level=logging.INFO)
@@ -41,10 +44,35 @@ async def main():
     print(f"2. Starting LLM processing for {len(prepared_df)} videos...")
     t_llm = time.time()
     processor = LlmProcessor(api_key=Config.API_KEY, model_name=Config.LLM_MODEL_VIDEO)
-    llm_results = await processor.process_batch(prepared_df, Config.CONCURRENCY_LIMIT)
+
+    # NOVO: Controle de erros consecutivos
+    consecutive_errors = 0
+    llm_results = []
+    try:
+        async for result in processor.process_batch_stream(prepared_df, Config.CONCURRENCY_LIMIT):
+            llm_results.append(result)
+            if isinstance(result, dict) and 'error' in result:
+                consecutive_errors += 1
+                print(f"[ERROR] Consecutive errors: {consecutive_errors} (yt_id={result.get('yt_id')}, error={result.get('error')})")
+                if consecutive_errors >= MAX_CONSECUTIVE_ERRORS:
+                    print(f"[FATAL] Exceeded maximum consecutive errors ({MAX_CONSECUTIVE_ERRORS}). Aborting pipeline.")
+                    # Salvar progresso parcial
+                    ResultHandler.save_results(prepared_df, Config.OUTPUT_JSON_PATH)
+                    return
+            else:
+                consecutive_errors = 0
+    except KeyboardInterrupt:
+        print("\n[Pipeline] Interrompido pelo usuário (Ctrl+C). Salvando progresso parcial e finalizando com segurança...")
+        ResultHandler.save_results(prepared_df, Config.OUTPUT_JSON_PATH)
+        return
+    except Exception as e:
+        print(f"[FATAL] Erro inesperado: {e}. Salvando progresso parcial e abortando.")
+        ResultHandler.save_results(prepared_df, Config.OUTPUT_JSON_PATH)
+        return
+    print(f"LLM processing completed. [Tempo: {time.time()-t_llm:.2f}s]")
+
     total_tokens_llm = sum(r.get('total_tokens', 0) for r in llm_results if isinstance(r, dict))
     total_cost_llm = sum(r.get('llm_cost_usd', 0) for r in llm_results if isinstance(r, dict))
-    print(f"LLM processing completed. [Tempo: {time.time()-t_llm:.2f}s]")
 
     print("3. Merging results and saving output...")
     t_merge = time.time()
