@@ -125,17 +125,18 @@ Video Transcript: {video_data.get('full_transcript', '')[:Config.TRANSCRIPT_MAX_
         results = []
         if len(processed) > 0:
             # Processamento incremental: vídeo a vídeo
-            for _, row in to_process.iterrows():
+            for idx, (_, row) in enumerate(to_process.iterrows(), 1):
                 res = await self.process_single_video(row, semaphore)
                 results.append(res)
-                # Salvar incrementalmente
-                all_results = processed + results
-                try:
-                    with open(processed_path, 'w', encoding='utf-8') as f:
-                        json.dump(all_results, f, indent=2, ensure_ascii=False)
-                except Exception as e:
-                    print(f"[LLM] Falha ao salvar checkpoint incremental: {e}")
+                if idx % 10 == 0:
+                    print(f"[LLM] {idx} vídeos processados neste lote...")
             all_results = processed + results
+            # Salvar apenas ao final do lote
+            try:
+                with open(processed_path, 'w', encoding='utf-8') as f:
+                    json.dump(all_results, f, indent=2, ensure_ascii=False)
+            except Exception as e:
+                print(f"[LLM] Falha ao salvar checkpoint final: {e}")
             total_tokens = sum(r.get('total_tokens', 0) for r in all_results if isinstance(r, dict))
             total_cost = sum(r.get('llm_cost_usd', 0) for r in all_results if isinstance(r, dict))
             print(f"[LLM] Batch (com checkpoint) concluído em {time.time()-t_batch:.2f}s | Total tokens: {total_tokens} | Custo estimado: ${total_cost:.8f}")
@@ -173,19 +174,21 @@ Video Transcript: {video_data.get('full_transcript', '')[:Config.TRANSCRIPT_MAX_
                 processed_ids = set()
         to_process = df[~df['yt_id'].isin(processed_ids)]
         results = []
-        for _, row in to_process.iterrows():
+        for idx, (_, row) in enumerate(to_process.iterrows(), 1):
             try:
                 res = await self.process_single_video(row, semaphore)
                 results.append(res)
-                # Salvar incrementalmente
-                all_results = processed + results
-                try:
-                    with open(processed_path, 'w', encoding='utf-8') as f:
-                        json.dump(all_results, f, indent=2, ensure_ascii=False)
-                except Exception as e:
-                    print(f"[LLM] Falha ao salvar checkpoint incremental: {e}")
+                if idx % 10 == 0:
+                    print(f"[LLM] {idx} vídeos processados neste lote...")
                 yield res
             except Exception as e:
                 err = {"yt_id": row.get('yt_id', None), "error": str(e)}
                 results.append(err)
-                yield err 
+                yield err
+        # Salvar apenas ao final do lote
+        all_results = processed + results
+        try:
+            with open(processed_path, 'w', encoding='utf-8') as f:
+                json.dump(all_results, f, indent=2, ensure_ascii=False)
+        except Exception as e:
+            print(f"[LLM] Falha ao salvar checkpoint final: {e}") 

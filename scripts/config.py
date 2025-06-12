@@ -4,13 +4,13 @@ class Config:
     INPUT_CSV_PATH = 'input/input.csv'
     OUTPUT_JSON_PATH = 'data/processed_videos.json'
     DATA_DIR = 'data'
-    SAMPLE_SIZE = 100
+    SAMPLE_SIZE = 50
     TRANSCRIPT_MIN_LENGTH = 30
     TRANSCRIPT_MAX_CHARS = 4000
     API_KEY = os.getenv("GOOGLE_API_KEY")
     LLM_MODEL_VIDEO = "gemini-2.0-flash-lite"
     LLM_MODEL_TAXONOMY = "gemini-2.0-flash-lite"
-    CONCURRENCY_LIMIT = 20
+    CONCURRENCY_LIMIT = 50
     LLM_VIDEO_INPUT_COST_PER_M = 0.075
     LLM_VIDEO_OUTPUT_COST_PER_M = 0.30
     LLM_TAXONOMY_INPUT_COST_PER_M = 0.075

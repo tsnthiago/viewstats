@@ -1,6 +1,7 @@
 "use client"
 
 import type React from "react"
+import { useEffect, useState } from "react"
 
 import Link from "next/link"
 import Image from "next/image"
@@ -34,18 +35,13 @@ const formatDate = (dateString: string): string => {
   return `${Math.ceil(diffDays / 365)} years ago`
 }
 
+// Função utilitária para obter a thumb do YouTube
+function getYoutubeThumbUrl(id: string) {
+  return `https://img.youtube.com/vi/${id}/hqdefault.jpg`
+}
+
 export function VideoCard({ video, showRelevance = false }: VideoCardProps) {
   const router = useRouter()
-
-  // LOGS DE DEBUG PARA THUMBNAILS
-  if (typeof window !== 'undefined') {
-    console.log('[VideoCard] video.id:', video.id)
-    console.log('[VideoCard] video.thumbnailUrl:', video.thumbnailUrl)
-    if (video.channel) {
-      console.log('[VideoCard] video.channel.id:', video.channel.id)
-      console.log('[VideoCard] video.channel.avatarUrl:', video.channel.avatarUrl)
-    }
-  }
 
   const handleChannelClick = (e: React.MouseEvent) => {
     e.preventDefault()
@@ -57,15 +53,13 @@ export function VideoCard({ video, showRelevance = false }: VideoCardProps) {
     <Link href={`/video/${video.id}`} className="block group">
       <Card className="overflow-hidden h-full flex flex-col rounded-xl shadow-md hover:shadow-xl transition-shadow duration-300 ease-in-out bg-card">
         <CardHeader className="p-0 relative">
-          {video.thumbnailUrl && (
-            <Image
-              src={video.thumbnailUrl}
-              alt={video.title ? `Thumbnail for ${video.title}` : 'Video thumbnail'}
-              width={400}
-              height={225}
-              className="aspect-video object-cover w-full group-hover:scale-105 transition-transform duration-300"
-            />
-          )}
+          <Image
+            src={getYoutubeThumbUrl(video.id)}
+            alt={video.title ? `Thumbnail for ${video.title}` : 'Video thumbnail'}
+            width={400}
+            height={225}
+            className="aspect-video object-cover w-full group-hover:scale-105 transition-transform duration-300"
+          />
           {video.duration && (
             <div className="absolute bottom-2 right-2 bg-black/70 text-white px-2 py-1 text-xs rounded flex items-center">
               <Clock size={14} className="mr-1" />
