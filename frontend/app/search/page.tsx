@@ -56,13 +56,11 @@ function SearchResultsContent() {
 
         const [taxData, videosResponse] = await Promise.all([taxPromise, videosPromise])
         
-        console.log("Fetched Taxonomy Data:", JSON.stringify(taxData, null, 2));
         setTaxonomy(taxData)
         setVideos(videosResponse.videos)
         setTotalVideos(videosResponse.total)
 
       } catch (err) {
-        console.error("Failed to load data:", err)
         setError("Unable to load data. Please try again later.")
       } finally {
         setIsLoading(false)
@@ -138,7 +136,6 @@ function SearchResultsContent() {
       ? `Videos about "${taxonomy.find((t) => t.id === topicId)?.name || taxonomy.flatMap((t) => t.children || []).find((c) => c.id === topicId)?.name || topicId}"`
       : "Explore Our Videos"
 
-  console.log("Taxonomy state before render:", JSON.stringify(taxonomy, null, 2));
   return (
     <div className="flex flex-col md:flex-row gap-8">
       <TaxonomySidebar taxonomy={taxonomy} currentTopicId={topicId || undefined} />

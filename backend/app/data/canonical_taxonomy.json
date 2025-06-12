@@ -1,0 +1,182 @@
+{
+  "Entertainment": {
+    "reality tv": {
+      "love is blind": null
+    },
+    "video games": {
+      "garry's mod": null,
+      "dead island series": null,
+      "fortnite gameplay": null,
+      "roleplaying": null,
+      "obstacle courses": null,
+      "jackpot wins": null,
+      "game reviews": null,
+      "farming": null,
+      "family friendly": null,
+      "manhunt": null
+    },
+    "media": {
+      "television shows": null,
+      "cooking": null
+    },
+    "video essays": {
+      "pop culture": null
+    },
+    "gaming": {
+      "gaming content": null
+    },
+    "children's content": {
+      "doll play": null
+    },
+    "family & kids": {
+      "children's content": null
+    },
+    "comedy": {
+      "video games": null
+    }
+  },
+  "News & Politics": {
+    "royal family": {
+      "royal titles": null
+    }
+  },
+  "Education": {
+    "learning": {
+      "informal learning": {
+        "online lessons": null
+      },
+      "online learning": {
+        "career development": null
+      },
+      "language learning": {
+        "ielts speaking": null
+      },
+      "language arts": {
+        "grammar": null
+      }
+    },
+    "school life": {
+      "student behaviors": null
+    }
+  },
+  "Lifestyle": {
+    "daily life": {
+      "vlogging": null,
+      "family & relationships": {
+        "sibling rivalry": null,
+        "celebrations": {
+          "birthday parties": null
+        },
+        "hobbies": {
+          "diy projects": null,
+          "crafting with dolls": null,
+          "food": {
+            "culinary arts": null
+          }
+        }
+      }
+    }
+  },
+  "Technology": {
+    "consumer technology": {
+      "digital menus": null,
+      "computer peripherals": {
+        "keyboards": null
+      }
+    }
+  },
+  "Business & Finance": {
+    "economics": {
+      "us debt": null,
+      "retirement": {
+        "financial planning": null,
+        "property": null
+      }
+    },
+    "entrepreneurship": {
+      "starting a business": null,
+      "product launch": null
+    }
+  },
+  "Arts & Culture": {
+    "attractions": {
+      "landmarks": null
+    }
+  },
+  "Gaming & E-sports": {
+    "gameplay": {
+      "horror": null,
+      "first-person shooters": null,
+      "multitasking": null,
+      "highlights": null,
+      "resource management": null,
+      "exploits": null,
+      "warzone rebirth island": null,
+      "roblox": null
+    },
+    "esports": {
+      "apex legends": null
+    },
+    "equipment": {
+      "custom builds": null
+    },
+    "genres": {
+      "open world": null,
+      "battle royale": null
+    },
+    "game reviews": {
+      "fall guys": null
+    },
+    "video games": {
+      "game recommendations": null,
+      "horror games": null
+    },
+    "sports games": {
+      "football fusion 2": null
+    },
+    "sandbox games": {
+      "minecraft": null
+    },
+    "simulation games": {
+      "farming simulator 22": null
+    },
+    "roblox": {
+      "murder mystery": null,
+      "game updates": null
+    },
+    "minecraft": {
+      "survival": null
+    },
+    "cs2": {
+      "case openings": null,
+      "skins": null
+    },
+    "mobile gaming": {
+      "dragon ball legends": null
+    },
+    "fighting games": {
+      "character analysis": null
+    },
+    "first-person shooters": {
+      "call of duty": null
+    },
+    "golf": {
+      "tournament highlights": null,
+      "professional golf": null
+    },
+    "competition": {
+      "athlete performance": null
+    },
+    "action games": {
+      "zombie games": null
+    }
+  },
+  "How-to & DIY": {},
+  "Sports & Recreation": {
+    "golf": {
+      "professional golf": null,
+      "tournament highlights": null,
+      "athlete performance": null
+    }
+  }
+}

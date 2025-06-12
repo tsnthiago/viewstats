@@ -4,6 +4,7 @@ import { useState } from "react"
 import Link from "next/link"
 import { ChevronRight, ChevronDown } from "lucide-react"
 import { Topic } from "@/lib/types"
+import { useRouter } from "next/navigation"
 
 interface TaxonomySidebarProps {
   taxonomy: Topic[]
@@ -11,20 +12,18 @@ interface TaxonomySidebarProps {
 
 const TopicItem = ({ topic, level }: { topic: Topic; level: number }) => {
   const [isOpen, setIsOpen] = useState(level < 1) // Open top-level by default
-
   const hasChildren = topic.children && topic.children.length > 0
+  const router = useRouter();
 
   return (
     <div style={{ paddingLeft: `${level * 1}rem` }}>
       <div
         className="flex items-center justify-between py-2 px-3 rounded-md hover:bg-muted cursor-pointer"
-        onClick={() => hasChildren && setIsOpen(!isOpen)}
+        onClick={() => router.push(`/search?topic=${encodeURIComponent(topic.id)}`)}
       >
-        <Link href={`/search?topic=${encodeURIComponent(topic.id)}`}>
-          <a className="flex-grow capitalize text-sm font-medium text-foreground hover:text-brand">
-            {topic.name}
-          </a>
-        </Link>
+        <span className="flex-grow capitalize text-sm font-medium text-foreground hover:text-brand">
+          {topic.name}
+        </span>
         {hasChildren && (
           <div className="ml-2">
             {isOpen ? <ChevronDown size={16} /> : <ChevronRight size={16} />}

@@ -1,4 +1,4 @@
-const BACKEND_API_URL = process.env.NEXT_PUBLIC_BACKEND_API_URL || "http://localhost:8000";
+const BACKEND_API_URL = "http://147.79.111.195:8000";
 
 /** @type {import('next').NextConfig} */
 const nextConfig = {

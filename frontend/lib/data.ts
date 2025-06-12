@@ -137,13 +137,11 @@ export const fetchSearchSuggestions = async (query: string): Promise<SearchSugge
 
 export const fetchChannelById = async (id: string): Promise<Channel | undefined> => {
     // This can be implemented in the backend if channel details are available
-    console.log(`API: Fetching channel by ID: "${id}"`)
     return undefined;
 }
 
 export const fetchVideosByChannel = async (channelId: string): Promise<Video[]> => {
     // This can be implemented in the backend if needed
-    console.log(`API: Fetching videos for channel: "${channelId}"`)
     return [];
 }
 
@@ -194,7 +192,6 @@ export const fetchVideosByTopic = async (
   page: number = 1,
   limit: number = 12
 ): Promise<{ videos: Video[]; total: number }> => {
-  console.log(`API: Fetching videos for topic: "${topicId}"`, { page, limit })
   const params = new URLSearchParams({ 
     topic_id: topicId,
     page: page.toString(),
@@ -248,30 +245,24 @@ export const fetchVideoById = async (id: string): Promise<Video | undefined> => 
 }
 
 export const fetchTaxonomy = async (): Promise<Topic[]> => {
-  console.log("API: Fetching taxonomy");
-  try {
-    const response = await fetch(`/api/taxonomy`);
-    if (!response.ok) {
-      throw new Error(`Failed to fetch taxonomy: ${response.statusText}`);
-    }
-    const data = await response.json();
-
-    const transformTaxonomy = (node: any, path: string[] = []): Topic[] => {
-      return Object.keys(node).map(key => {
-        const currentPath = [...path, key];
-        const children = node[key] ? transformTaxonomy(node[key], currentPath) : [];
-        return {
-          id: currentPath.join(" > "),
-          name: key,
-          children: children,
-          level: currentPath.length -1
-        };
-      });
-    };
-
-    return transformTaxonomy(data);
-  } catch (error) {
-    console.error("Error fetching or processing taxonomy:", error);
-    return [];
+  const response = await fetch(`/api/taxonomy`);
+  if (!response.ok) {
+    throw new Error(`Failed to fetch taxonomy: ${response.statusText}`);
   }
+  const data = await response.json();
+
+  const transformTaxonomy = (node: any, path: string[] = []): Topic[] => {
+    return Object.keys(node).map(key => {
+      const currentPath = [...path, key];
+      const children = node[key] ? transformTaxonomy(node[key], currentPath) : [];
+      return {
+        id: currentPath.join(" > "),
+        name: key,
+        children: children,
+        level: currentPath.length -1
+      };
+    });
+  };
+
+  return transformTaxonomy(data);
 };
