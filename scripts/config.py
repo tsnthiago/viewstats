@@ -4,7 +4,7 @@ class Config:
     INPUT_CSV_PATH = 'input/input.csv'
     OUTPUT_JSON_PATH = 'data/processed_videos.json'
     DATA_DIR = 'data'
-    SAMPLE_SIZE = 50
+    SAMPLE_SIZE = 500
     TRANSCRIPT_MIN_LENGTH = 30
     TRANSCRIPT_MAX_CHARS = 4000
     API_KEY = os.getenv("GOOGLE_API_KEY")

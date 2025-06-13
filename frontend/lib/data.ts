@@ -1,3 +1,4 @@
+// ATENÇÃO: Sempre mapear yt_id para id ao criar objetos Video, pois o backend pode retornar yt_id (YouTube ID) e o componente de thumb depende disso.
 // Simulates API calls
 import type { Video, Topic, TranscriptItem, Channel, SearchSuggestion, SearchFilters } from "./types"
 
@@ -167,7 +168,7 @@ export const fetchVideosBySearch = async (
   }
   const data = await response.json()
   const videos = (data.results || []).map((video: any) => ({
-    id: video.id,
+    id: video.yt_id ?? video.id,
     title: video.title,
     uploadDate: video.uploadDate,
     viewCount: video.viewCount,
@@ -226,7 +227,7 @@ export const fetchVideoById = async (id: string): Promise<Video | undefined> => 
   if (!response.ok) return undefined
   const video = await response.json()
   return {
-    id: video.id,
+    id: video.yt_id ?? video.id,
     title: video.title,
     uploadDate: video.uploadDate,
     viewCount: video.viewCount,

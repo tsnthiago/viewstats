@@ -57,7 +57,7 @@ class QdrantService:
             for point in hits:
                 payload = point.payload or {}
                 results.append({
-                    "id": str(point.id),
+                    "id": payload.get("yt_id", str(point.id)),
                     "score": point.score,
                     "title": payload.get("title", ""),
                     "description": payload.get("description_llm", ""),
@@ -75,7 +75,7 @@ class QdrantService:
             for point in hits:
                 payload = point.payload or {}
                 results.append({
-                    "id": str(point.id),
+                    "id": payload.get("yt_id", str(point.id)),
                     "score": 1.0,
                     "title": payload.get("title", ""),
                     "description": payload.get("description_llm", ""),
