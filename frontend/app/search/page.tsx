@@ -1,5 +1,6 @@
 "use client" // Required for useSearchParams and client-side data fetching hooks
 
+import React from 'react'
 import { useEffect, useState, Suspense } from "react"
 import { useSearchParams } from "next/navigation"
 import { SearchBarWithSuggestions } from "@/components/search-bar-with-suggestions"
@@ -27,7 +28,7 @@ function SearchResultsContent() {
   
   // Pagination state
   const [page, setPage] = useState(1)
-  const [videosPerPage, setVideosPerPage] = useState(12)
+  const [videosPerPage, setVideosPerPage] = useState(10)
   const [totalVideos, setTotalVideos] = useState(0)
 
   const totalPages = Math.ceil(totalVideos / videosPerPage)
@@ -152,9 +153,9 @@ function SearchResultsContent() {
                   <SelectValue placeholder="Results per page" />
                 </SelectTrigger>
                 <SelectContent>
-                  <SelectItem value="12">12 per page</SelectItem>
-                  <SelectItem value="24">24 per page</SelectItem>
-                  <SelectItem value="36">36 per page</SelectItem>
+                  <SelectItem value="10">10 por página</SelectItem>
+                  <SelectItem value="50">50 por página</SelectItem>
+                  <SelectItem value="100">100 por página</SelectItem>
                 </SelectContent>
               </Select>
             </div>

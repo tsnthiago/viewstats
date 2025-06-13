@@ -52,11 +52,15 @@ def search_get(
     return SearchResponse(results=dummy_results[:limit], total=2)
 
 @router.post("/search", response_model=SearchResponse)
-async def search_post(request: SearchRequest = Body(...)):
-    """POST /search (agora busca real no Qdrant, assíncrono)."""
+async def search_post(request: SearchRequest = Body(...), page: int = Query(1), limit: int = Query(10)):
+    """POST /search (busca real no Qdrant, assíncrono, com paginação)."""
     results = await qdrant_service.search_vectors(
         query=request.query,
         topic_filter=request.topic_filter,
-        top_k=request.top_k
+        top_k=1000  # Buscar muitos para paginar manualmente
     )
-    return SearchResponse(results=results, total=len(results)) 
+    total = len(results)
+    start = (page - 1) * limit
+    end = start + limit
+    paginated_results = results[start:end]
+    return SearchResponse(results=paginated_results, total=total) 

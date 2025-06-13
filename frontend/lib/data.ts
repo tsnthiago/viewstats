@@ -151,7 +151,7 @@ export const fetchVideosBySearch = async (
   query: string,
   filters?: SearchFilters,
   page: number = 1,
-  limit: number = 12
+  limit: number = 10
 ): Promise<{ videos: Video[]; total: number }> => {
   const body = {
     query: query || "",
@@ -190,7 +190,7 @@ export const fetchVideosBySearch = async (
 export const fetchVideosByTopic = async (
   topicId: string,
   page: number = 1,
-  limit: number = 12
+  limit: number = 10
 ): Promise<{ videos: Video[]; total: number }> => {
   // Garantir que o topicId está decodificado corretamente
   const decodedTopicId = decodeURIComponent(topicId);
