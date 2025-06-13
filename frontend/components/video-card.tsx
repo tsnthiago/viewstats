@@ -10,6 +10,7 @@ import { Card, CardContent, CardFooter, CardHeader, CardTitle } from "@/componen
 import { Badge } from "@/components/ui/badge"
 import { Clock, Eye, Calendar } from "lucide-react"
 import { useRouter } from "next/navigation"
+import { Dialog, DialogContent, DialogHeader, DialogTitle, DialogDescription } from "@/components/ui/dialog"
 
 interface VideoCardProps {
   video: Video
@@ -42,6 +43,7 @@ function getYoutubeThumbUrl(id: string) {
 
 export function VideoCard({ video, showRelevance = false }: VideoCardProps) {
   const router = useRouter()
+  const [open, setOpen] = useState(false)
 
   const handleChannelClick = (e: React.MouseEvent) => {
     e.preventDefault()
@@ -49,8 +51,14 @@ export function VideoCard({ video, showRelevance = false }: VideoCardProps) {
     router.push(`/channel/${video.channel.id}`)
   }
 
+  const handleCardClick = (e: React.MouseEvent) => {
+    e.preventDefault()
+    setOpen(true)
+  }
+
   return (
-    <Link href={`/video/${video.id}`} className="block group">
+    <>
+      <div className="block group cursor-pointer" onClick={handleCardClick}>
       <Card className="overflow-hidden h-full flex flex-col rounded-xl shadow-md hover:shadow-xl transition-shadow duration-300 ease-in-out bg-card">
         <CardHeader className="p-0 relative">
           <Image
@@ -78,7 +86,6 @@ export function VideoCard({ video, showRelevance = false }: VideoCardProps) {
               {video.title}
             </CardTitle>
           )}
-
           {/* Channel Info */}
           {video.channel && video.channel.name && (
             <div className="flex items-center gap-2 mb-2">
@@ -99,7 +106,6 @@ export function VideoCard({ video, showRelevance = false }: VideoCardProps) {
               </button>
             </div>
           )}
-
           {/* Video Metadata */}
           {(video.viewCount !== undefined || video.uploadDate) && (
             <div className="flex items-center gap-4 text-xs text-muted-foreground mb-2">
@@ -117,7 +123,6 @@ export function VideoCard({ video, showRelevance = false }: VideoCardProps) {
               )}
             </div>
           )}
-
           {video.semanticSnippet && (
             <p
               className="text-sm text-muted-foreground line-clamp-2 mb-2"
@@ -130,14 +135,53 @@ export function VideoCard({ video, showRelevance = false }: VideoCardProps) {
         </CardContent>
         <CardFooter className="p-4 pt-0">
           <div className="flex flex-wrap gap-2">
-            {(video.topics || []).slice(0, 3).map((topic) => (
-              <Badge key={topic} variant="secondary" className="text-xs capitalize">
-                {topic.replace("-", " ")}
+              {(video.topics || []).slice(0, 3).map((topicPath) => {
+                let parts = topicPath.includes('>')
+                  ? topicPath.split('>').map(s => s.trim())
+                  : topicPath.split('-').map(s => s.trim());
+                parts = parts.slice(0, 3);
+                return (
+                  <Badge key={topicPath} variant="secondary" className="text-xs lowercase">
+                    {parts.join(' > ').replace(/_/g, ' ')}
               </Badge>
-            ))}
+                );
+              })}
           </div>
         </CardFooter>
       </Card>
-    </Link>
+      </div>
+      <Dialog open={open} onOpenChange={setOpen}>
+        <DialogContent className="max-w-2xl w-full">
+          <DialogHeader>
+            <DialogTitle className="text-lg lowercase">{video.title}</DialogTitle>
+            <DialogDescription className="text-xs lowercase">
+              {(video.topics || []).slice(0, 3).map((topicPath, idx) => (
+                <span key={topicPath}>
+                  {topicPath.split('>').map(s => s.trim()).join(' > ')}
+                  {idx < (video.topics || []).slice(0, 3).length - 1 ? ' | ' : ''}
+                </span>
+              ))}
+            </DialogDescription>
+          </DialogHeader>
+          <div className="w-full flex flex-col items-center gap-4">
+            <div className="w-full aspect-video rounded-xl overflow-hidden bg-black">
+              <iframe
+                width="100%"
+                height="315"
+                src={`https://www.youtube.com/embed/${video.id}`}
+                title={video.title}
+                frameBorder="0"
+                allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture"
+                allowFullScreen
+                className="w-full h-full"
+              ></iframe>
+            </div>
+            <div className="w-full">
+              <p className="text-sm text-muted-foreground mb-2 lowercase">{video.description}</p>
+            </div>
+          </div>
+        </DialogContent>
+      </Dialog>
+    </>
   )
 }

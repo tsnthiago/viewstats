@@ -192,8 +192,10 @@ export const fetchVideosByTopic = async (
   page: number = 1,
   limit: number = 12
 ): Promise<{ videos: Video[]; total: number }> => {
+  // Garantir que o topicId está decodificado corretamente
+  const decodedTopicId = decodeURIComponent(topicId);
   const params = new URLSearchParams({ 
-    topic_id: topicId,
+    topic_id: decodedTopicId,
     page: page.toString(),
     limit: limit.toString(),
   });
@@ -202,7 +204,6 @@ export const fetchVideosByTopic = async (
       throw new Error('Failed to fetch videos by topic');
   }
   const data = await response.json();
-  
   const videos = data.videos.map((video: any) => ({
       id: video.yt_id,
       title: video.title,
@@ -218,7 +219,6 @@ export const fetchVideosByTopic = async (
       videoUrl: video.videoUrl,
       channel: video.channel
   }));
-
   return { videos, total: data.total }
 }
 

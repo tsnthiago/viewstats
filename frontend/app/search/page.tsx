@@ -16,7 +16,7 @@ import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from "@
 
 function SearchResultsContent() {
   const searchParams = useSearchParams()
-  const query = searchParams.get("q")
+  const query = searchParams.get("q") || searchParams.get("topic")
   const topicId = searchParams.get("topic")
 
   const [videos, setVideos] = useState<Video[]>([])
@@ -47,19 +47,15 @@ function SearchResultsContent() {
 
         if (query) {
           videosPromise = fetchVideosBySearch(query, filters, page, videosPerPage)
-        } else if (topicId) {
-          videosPromise = fetchVideosByTopic(topicId, page, videosPerPage)
         } else {
           // Default search when no query or topic is provided
           videosPromise = fetchVideosBySearch("", filters, page, videosPerPage)
         }
 
         const [taxData, videosResponse] = await Promise.all([taxPromise, videosPromise])
-        
         setTaxonomy(taxData)
         setVideos(videosResponse.videos)
         setTotalVideos(videosResponse.total)
-
       } catch (err) {
         setError("Unable to load data. Please try again later.")
       } finally {
@@ -67,7 +63,7 @@ function SearchResultsContent() {
       }
     }
     loadData()
-  }, [query, topicId, filters, page, videosPerPage])
+  }, [query, filters, page, videosPerPage])
 
   const handlePageChange = (newPage: number) => {
     if (newPage > 0 && newPage <= totalPages) {
